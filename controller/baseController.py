@@ -5,14 +5,23 @@ from tornado.web import RequestHandler
 
 from common import commonService
 from common.LNG import G, set_context_lang
+from common.config import getConfig
 from service.system import userService
 
 cookieName = 'tao_sync'
 
 
 class BaseHandler(RequestHandler):
+    def _get_signed_user_cookie(self):
+        # 登录时和校验时必须使用同一个有效期，否则浏览器仍保留 Cookie 时，
+        # 服务端会回退到 Tornado 默认的 31 天有效期。
+        return self.get_signed_cookie(
+            cookieName,
+            max_age_days=getConfig()['server']['expires']
+        )
+
     def get_current_user(self):
-        return json.loads(self.get_signed_cookie(cookieName))
+        return json.loads(self._get_signed_user_cookie())
 
 
 def handle_request(func):
@@ -20,7 +29,7 @@ def handle_request(func):
         uri = self.request.uri
         lang = self.request.headers.get("Accept-Language", None)
         set_context_lang(lang)
-        user = self.get_signed_cookie(cookieName)
+        user = self._get_signed_user_cookie()
         trueUser = None
         if not uri.startswith('/svr/noAuth'):
             if user is None:
