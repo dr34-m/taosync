@@ -240,6 +240,8 @@ After signing in, open Engine Management and add directories to the built-in Tao
 
 Configuration precedence: `data/config.ini` > `environment variables` > `default values`. When a higher-priority source is present, all lower-priority sources are **ignored**. Restart TaoSync or its Docker container after changing the configuration.
 
+`expires` controls both the browser login cookie and server-side signed-cookie validation lifetime, in days.
+
 Example `data/config.ini` file (when present, this file has the **highest priority**):
 
 ```ini

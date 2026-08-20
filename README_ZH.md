@@ -240,6 +240,8 @@ services:
 
 配置优先级：`data/config.ini`>`环境变量`>`默认值`；前一个存在，则后边都将被**忽略**。修改配置需重启程序或Docker。
 
+`expires` 同时控制浏览器登录 Cookie 和服务端签名 Cookie 的有效期，单位为天。
+
 `data/config.ini`文件示例（如该文件存在，则**优先级最高**）
 
 ```ini

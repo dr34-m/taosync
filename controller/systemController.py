@@ -35,7 +35,7 @@ class User(BaseHandler):
 
     @handle_request
     def put(self, req):
-        user = json.loads(self.get_signed_cookie(cookieName))
+        user = json.loads(self._get_signed_user_cookie())
         userService.editPasswd(user['id'], req['passwd'], req['oldPasswd'])
 
 
